@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // If your file is named "Navbar.jsx", use that exact casing.
 // Try adding the .jsx extension and matching the casing exactly
 
-import Navbar from "./components/navbar.jsx";
+// import Navbar from "./components/navbar.jsx";
 
 // Pages
 import Index from "./pages/Index";
@@ -33,7 +33,7 @@ export default function App() {
       <BrowserRouter>
         {/* We place it here directly to test if it renders at all */}
         
-        <Navbar />
+      
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
