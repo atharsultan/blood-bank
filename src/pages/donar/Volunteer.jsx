@@ -1,11 +1,16 @@
 import React from "react";
-
+import AtharImg from "../../assets/Athar.jpg";
 const donors = [
-  { name: "Satyendra Kumar", gender: "Male", bloodGroup: "AB+", img: "/mnt/data/ab91d210-fbd9-472e-b92e-46fc21697f0e.png" },
-  { name: "Anuj Kumar", gender: "Male", bloodGroup: "B+", img: "https://i.pravatar.cc/150?img=12" },
-  { name: "Ramesh Jha", gender: "Male", bloodGroup: "B+", img: "https://i.pravatar.cc/150?img=32" },
-  { name: "Test Test", gender: "Male", bloodGroup: "AB-", img: "https://i.pravatar.cc/150?img=45" },
-  { name: "Meenu Kumari", gender: "Female", bloodGroup: "O-", img: "https://i.pravatar.cc/150?img=5" }
+  {
+  name: "Athar Sultan",
+  gender: "Male",
+  bloodGroup: "A+",
+  img: AtharImg 
+},
+  { name: "Ghulam Muhammad", gender: "Male", bloodGroup: "B+", img: "https://i.pravatar.cc/150?img=12" },
+  { name: "Jan Ali", gender: "Female", bloodGroup: "B+", img: "https://i.pravatar.cc/150?img=32" },
+  { name: "Masuma", gender: "Female", bloodGroup: "AB-", img: "https://i.pravatar.cc/150?img=45" },
+  { name: "Fatima Athar", gender: "Female", bloodGroup: "O-", img: "https://i.pravatar.cc/150?img=5" }
 ];
 
 export default function Volunteer() {
