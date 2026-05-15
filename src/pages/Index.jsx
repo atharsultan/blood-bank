@@ -73,16 +73,18 @@ const Index = () => {
             <div className="max-w-xl text-white">
 
               {/* ✅ FIXED 3-LINE CONTROLLED HEADING */}
-              <h1 className="text-4xl md:text-6xl font-black uppercase leading-tight">
-
-                <span className="block">Blood Is Meant For</span>
-
-                <span className="block">
-                  Circulation Donate
+              <h1 className="text-3xl md:text-5xl font-bold leading-tight uppercase max-w-[700px]">
+                <span className="whitespace-nowrap">
+                  BLOOD IS MEANT FOR
                 </span>
+                <br />
 
-                <span className="block">Blood</span>
+                <span className="whitespace-nowrap">
+                  CIRCULATION. DONATE
+                </span>
+                <br />
 
+                BLOOD.
               </h1>
 
               <p className="mt-6 text-sm md:text-base text-white/80 leading-relaxed">
@@ -106,14 +108,14 @@ const Index = () => {
 
         {/* WAVE */}
         <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
-  <svg
-    viewBox="0 0 1440 180"
-    preserveAspectRatio="none"
-    className="block w-full h-[120px]"
-  >
-    <path
-      fill="#ffffff"
-      d="
+          <svg
+            viewBox="0 0 1440 180"
+            preserveAspectRatio="none"
+            className="block w-full h-[120px]"
+          >
+            <path
+              fill="#ffffff"
+              d="
         M0,40
         C180,120 360,0 540,40
         C720,80 900,140 1080,80
@@ -122,9 +124,9 @@ const Index = () => {
         L0,180
         Z
       "
-    />
-  </svg>
-</div>
+            />
+          </svg>
+        </div>
       </section>
 
       {/* ================= ABOUT ================= */}
