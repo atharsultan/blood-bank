@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Header from "./Header";
 
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
@@ -53,8 +54,11 @@ export default function Search() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
+      <div className="relative z-10">
+        <Header />
+      </div>
       {/* Search Header */}
-      <section className="bg-gray-50 py-12 border-b border-gray-100">
+      <section className="bg-gray-50 py-12 border-b border-gray-100 z-10">
         <div className="max-w-6xl mx-auto px-6">
           <h1 className="text-4xl font-black mb-2 tracking-tight">
             Find Blood Donors

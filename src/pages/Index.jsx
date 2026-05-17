@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import bdimg from "../assets/doctor.PNG";
 import Volunteer from "./donar/Volunteer";
+import { Link, useLocation } from "react-router-dom";
 
 const NAV_ITEMS = [
-  "Home",
-  "About",
-  "Donors List",
-  "Contact Us",
-  "Donor Signup",
-  "Admin",
-  "Search Donor",
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Donors List", path: "/stock" },
+    { name: "Contact Us", path: "/contact" },
+    { name: "Donor Signup", path: "/signup" },
+    { name: "Admin", path: "/admin" },
+    { name: "Search Donor", path: "/search" },
 ];
-
 const Index = () => {
   const [stats, setStats] = useState({ donors: 0, units: 0 });
 
@@ -55,15 +55,37 @@ const Index = () => {
           {/* NAVBAR */}
           <nav className="flex items-center justify-between py-6 text-white">
             <h1 className="font-bold tracking-[3px] text-lg">
-              BBDMS
+              {/* LOGO */}
+                    <Link to="/">
+                        <h1 className="font-bold tracking-[3px] text-lg cursor-pointer">
+                            BBDMS
+                        </h1>
+                    </Link>
             </h1>
 
             <ul className="hidden md:flex gap-6 text-xs font-semibold uppercase tracking-widest">
-              {NAV_ITEMS.map((item) => (
-                <li key={item} className="cursor-pointer hover:opacity-80">
-                  {item}
-                </li>
-              ))}
+               <nav className="flex items-center justify-between py-6 text-white">
+
+                    
+
+                    {/* NAV LINKS */}
+                    <ul className="hidden md:flex gap-6 text-xs font-semibold uppercase tracking-widest">
+
+                        {NAV_ITEMS.map((item) => (
+                            <li key={item.name}>
+
+                                <Link
+                                    to={item.path}
+                                    className="cursor-pointer hover:opacity-80 transition"
+                                >
+                                    {item.name}
+                                </Link>
+
+                            </li>
+                        ))}
+
+                    </ul>
+                </nav>
             </ul>
           </nav>
 

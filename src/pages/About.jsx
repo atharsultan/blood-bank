@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-
+import Header from "./Header";
 export default function About() {
   useEffect(() => {
     document.title = "About — BloodLife";
@@ -38,6 +38,9 @@ export default function About() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
+       <div className="relative inset-0 z-0">
+        <Header />
+      </div>
       {/* Hero Section */}
       <section className="bg-gray-50 py-20 border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-6 text-center">

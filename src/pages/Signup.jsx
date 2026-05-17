@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import Header from "./Header";
 const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 // Helper for Section Titles
@@ -10,6 +10,7 @@ const SectionTitle = ({ children }) => (
 );
 
 export default function Signup() {
+ 
   const [form, setForm] = useState({
     full_name: "", email: "", password: "",
     blood_group: "", gender: "", age: "",
@@ -31,8 +32,13 @@ export default function Signup() {
   };
 
   return (
+    <>
+   
     <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-4 py-16 font-sans">
-      <div className="w-full max-w-2xl bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
+       <div className="absolute inset-0 z-0">
+        <Header />
+      </div>
+      <div className="w-full max-w-2xl bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden z-10">
         
         {/* Header - More Professional Space */}
         <div className="bg-white p-8 md:p-12 pb-4 text-center">
@@ -119,5 +125,6 @@ export default function Signup() {
         </div>
       </div>
     </div>
+    </>
   );
 }

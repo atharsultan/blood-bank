@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import Header from "./Header";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,8 +48,12 @@ export default function Login() {
   };
 
   return (
+
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+      <div className="absolute inset-0 z-0">
+        <Header />
+      </div>
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 p-8 z-10">
         
         {/* Logo / Brand */}
         <div className="flex flex-col items-center mb-8">
