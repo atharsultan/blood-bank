@@ -66,7 +66,7 @@ return (
           Get in Touch
         </h1>
         <p className="text-lg text-gray-600">
-          Questions, feedback, or partnerships — we'd love to hear from you.
+          Questions, feedback, or partnerships   -----we'd love to hear from you.
         </p>
       </div>
     </section>
