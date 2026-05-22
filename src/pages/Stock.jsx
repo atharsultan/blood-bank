@@ -1,118 +1,121 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import PageHero from "../components/PageHero";
 
-const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+// Mock data matching real-world blood bank structures
+const MOCK_DONORS = [
+  { id: 1, name: "Athar Sultan", bloodGroup: "A+", age: 25, status: "Available", lastDonated: "2026-02-14" },
+  { id: 2, name: "Maryam Zahid", bloodGroup: "AB+", age: 24, status: "Available", lastDonated: "2026-01-20" },
+  { id: 3, name: "Zainab Ahmed", bloodGroup: "B+", age: 31, status: "On Leave", lastDonated: "2026-05-01" },
+  { id: 4, name: "Bilal Siddiqui", bloodGroup: "O-", age: 35, status: "Available", lastDonated: "2025-12-10" },
+  { id: 5, name: "Hamza Yusuf", bloodGroup: "AB+", age: 29, status: "Available", lastDonated: "2026-03-11" },
+];
 
-export default function Stock() {
-  const [stock, setStock] = useState({});
-  const [loading, setLoading] = useState(true);
+const Stock = () => {
+  const [donors, setDonors] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState("All");
 
   useEffect(() => {
-    document.title = "Blood Stock — BloodLife";
-
-    const fetchStock = async () => {
-      setLoading(true);
-      try {
-        // Mocking the Supabase fetch with a small delay
-        await new Promise((resolve) => setTimeout(resolve, 800));
-
-        // Simulated data structure
-        const mockData = {
-          "A+": 12, "A-": 3, "B+": 8, "B-": 0,
-          "AB+": 5, "AB-": 1, "O+": 20, "O-": 4,
-        };
-
-        setStock(mockData);
-      } catch (err) {
-        console.error("Error loading stock:", err);
-        setStock({});
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStock();
+    document.title = "BBDMS - Donors List";
+    // Simulate API fetch
+    setDonors(MOCK_DONORS);
   }, []);
 
+  // Filter logic based on Blood Group selection
+  const filteredDonors = selectedGroup === "All" 
+    ? donors 
+    : donors.filter(d => d.bloodGroup === selectedGroup);
+
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
-      {/* Header Section */}
-      <section className="bg-gray-50 py-16 border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-6">
-          <h1 className="text-4xl md:text-5xl font-black mb-4 tracking-tight">
-            Live Blood Stock
+    <div className="font-sans bg-slate-50 min-h-screen">
+      
+      {/* ================= HERO REUSABLE CONTAINER ================= */}
+      <PageHero
+        title={
+          <h1 className="text-3xl md:text-5xl font-bold leading-tight uppercase max-w-[700px]">
+            Registered Donors List
           </h1>
-          <p className="text-xl text-gray-500 font-medium max-w-2xl">
-            Real-time blood unit availability across all groups in our central repository.
-          </p>
+        }
+      >
+        <p className="mt-6 text-sm md:text-base text-white/80 leading-relaxed max-w-xl">
+          Browse our active database of verified volunteer lifesavers. Filter by blood group to check current availability for emergency transfusions.
+        </p>
+      </PageHero>
+
+      {/* ================= MAIN INTERIOR BODY ================= */}
+      <main className="max-w-7xl mx-auto px-6 md:px-16 py-12">
+        
+        {/* FILTER BAR ACTIONS */}
+        <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 mb-8 flex flex-wrap items-center justify-between gap-4">
+          <span className="text-sm font-bold text-slate-700 uppercase tracking-wider">Filter Blood Group:</span>
+          <div className="flex flex-wrap gap-2">
+            {["All", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((group) => (
+              <button
+                key={group}
+                onClick={() => setSelectedGroup(group)}
+                className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                  selectedGroup === group 
+                    ? "bg-[#18c5b5] text-white shadow-sm" 
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                }`}
+              >
+                {group}
+              </button>
+            ))}
+          </div>
         </div>
-      </section>
 
-      {/* Stock Grid */}
-      <section className="max-w-6xl mx-auto px-6 py-12">
-        {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+        {/* DONORS TABLE RESPONSIVE LAYOUT */}
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-slate-50 border-b border-slate-100 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  <th className="py-4 px-6">Donor Name</th>
+                  <th className="py-4 px-6 text-center">Blood Group</th>
+                  <th className="py-4 px-6">Age</th>
+                  <th className="py-4 px-6">Last Donation</th>
+                  <th className="py-4 px-6">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 text-sm text-slate-700">
+                {filteredDonors.length > 0 ? (
+                  filteredDonors.map((donor) => (
+                    <tr key={donor.id} className="hover:bg-slate-50/70 transition">
+                      <td className="py-4 px-6 font-semibold text-slate-900">{donor.name}</td>
+                      <td className="py-4 px-6 text-center">
+                        <span className="inline-block px-3 py-1 bg-red-50 text-red-600 font-extrabold text-xs rounded-md border border-red-100">
+                          {donor.bloodGroup}
+                        </span>
+                      </td>
+                      <td className="py-4 px-6">{donor.age} yrs</td>
+                      <td className="py-4 px-6 text-slate-500">{donor.lastDonated}</td>
+                      <td className="py-4 px-6">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
+                          donor.status === "Available" 
+                            ? "bg-emerald-50 text-emerald-700" 
+                            : "bg-amber-50 text-amber-700"
+                        }`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${donor.status === "Available" ? "bg-emerald-500" : "bg-amber-500"}`} />
+                          {donor.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="py-12 text-center text-slate-400 font-medium">
+                      No matching donors found for blood group "{selectedGroup}".
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {BLOOD_GROUPS.map((bg) => {
-              const units = stock[bg] ?? 0;
-              
-              // Logic for status badges
-              const status = units === 0 ? "out" : units < 5 ? "low" : "ok";
-
-              return (
-                <div 
-                  key={bg} 
-                  className="bg-white border border-gray-200 p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all group"
-                >
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="text-red-600">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>
-                      </svg>
-                    </div>
-
-                    <span
-                      className={`text-[10px] uppercase tracking-widest font-black px-3 py-1 rounded-full border ${
-                        status === "ok"
-                          ? "bg-green-50 text-green-700 border-green-100"
-                          : status === "low"
-                          ? "bg-amber-50 text-amber-700 border-amber-100"
-                          : "bg-red-50 text-red-700 border-red-100"
-                      }`}
-                    >
-                      {status === "ok" ? "Available" : status === "low" ? "Low Stock" : "Out of Stock"}
-                    </span>
-                  </div>
-
-                  <div className="text-5xl font-black text-gray-900 group-hover:scale-110 transition-transform origin-left">
-                    {bg}
-                  </div>
-
-                  <div className="mt-4 flex items-baseline gap-1">
-                    <span className="text-3xl font-black text-red-600">{units}</span>
-                    <span className="text-sm font-bold text-gray-400 uppercase tracking-wide">Units</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </section>
-
-      {/* Info Footer */}
-      <section className="max-w-6xl mx-auto px-6 pb-20">
-        <div className="bg-red-600 rounded-3xl p-8 md:p-12 text-white flex flex-col md:flex-row justify-between items-center gap-8">
-          <div>
-            <h3 className="text-2xl font-black mb-2">Can't find your blood group?</h3>
-            <p className="text-red-100 font-medium">Register as a recipient or contact our emergency helpline immediately.</p>
-          </div>
-          <button className="bg-white text-red-600 font-black px-8 py-4 rounded-2xl shadow-lg hover:bg-gray-100 transition-colors whitespace-nowrap">
-            Contact Helpline
-          </button>
         </div>
-      </section>
+
+      </main>
     </div>
   );
-}
+};
+
+export default Stock;

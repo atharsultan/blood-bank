@@ -1,194 +1,113 @@
-import React, { useState, useEffect } from "react";
-import Header from "./Header";
-export default function Contact() {
-  const [form, setForm] = useState({
-    full_name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
+import React from "react";
+import PageHero from "../components/PageHero";
+import { Mail, Phone, MapPin, Send } from "lucide-react"; // Optional icons
 
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState({ type: "", msg: "" });
-
-  useEffect(() => {
-    document.title = "Contact — BloodLife";
-  }, []);
-
-  // Simple native validation logic to replace Zod
-  const validateForm = () => {
-    if (form.full_name.trim().length < 2) return "Name is too short";
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) return "Invalid email address";
-    if (form.message.trim().length < 5) return "Message must be at least 5 characters";
-    return null;
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    setStatus({ type: "", msg: "" });
-
-    const error = validateForm();
-    if (error) {
-      setStatus({ type: "error", msg: error });
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      // Mocking the Supabase call
-      console.log("Submitting to database:", form);
+const Contact = () => {
+  return (
+    <div className="font-sans bg-slate-50 min-h-screen">
       
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      setStatus({ type: "success", msg: "Message sent! We'll be in touch." });
-      setForm({ full_name: "", email: "", subject: "", message: "" });
-    } catch (err) {
-      setStatus({ type: "error", msg: "Something went wrong. Try again." });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-return (
-  <div className="min-h-screen bg-white font-sans text-gray-900">
-
-    {/* HEADER (FIXED - ALWAYS CLICKABLE) */}
-    <div className="relative z-10">
-      <Header />
-    </div>
-
-    {/* PAGE HEADER SECTION */}
-    <section className="bg-gray-50 py-5 border-b border-gray-100">
-      <div className="max-w-6xl mx-auto px-2">
-        <h1 className="text-4xl font-extrabold mb-2 tracking-tight text-gray-900">
-          Get in Touch
-        </h1>
-        <p className="text-lg text-gray-600">
-          Questions, feedback, or partnerships   -----we'd love to hear from you.
+      {/* ================= HERO BACKDROP ================= */}
+      <PageHero
+        title={
+          <h1 className="text-3xl md:text-5xl font-bold leading-tight uppercase">
+            Get in <span className="text-red-600">Touch</span>
+          </h1>
+        }
+      >
+        <p className="mt-6 text-sm md:text-base text-white/80 leading-relaxed max-w-xl">
+          Questions, feedback, or partnerships — we'd love to hear from you. 
+          Our team typically responds within 24 hours.
         </p>
-      </div>
-    </section>
+      </PageHero>
 
-    {/* MAIN CONTENT */}
-    <section className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-12">
-
-      {/* LEFT SIDE */}
-      <div className="space-y-4">
-
-        {[
-          {
-            title: "Email",
-            val: "support@bloodlife.app",
-            icon: (
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect width="20" height="16" x="2" y="4" rx="2" />
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-              </svg>
-            )
-          },
-          {
-            title: "Phone",
-            val: "+1 (555) 0123-456",
-            icon: (
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72" />
-              </svg>
-            )
-          },
-          {
-            title: "Address",
-            val: "123 Healthcare Ave, Wellness City",
-            icon: (
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                <circle cx="12" cy="10" r="3" />
-              </svg>
-            )
-          }
-        ].map((c) => (
-          <div
-            key={c.title}
-            className="p-5 bg-white border border-gray-200 rounded-2xl shadow-sm flex gap-4"
-          >
-            <div className="h-10 w-10 rounded-xl bg-red-600 flex items-center justify-center text-white">
-              {c.icon}
+      {/* ================= MAIN CONTENT ================= */}
+      <main className="max-w-7xl mx-auto px-6 md:px-16 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          
+          {/* LEFT COLUMN: Contact Info Tiles */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-5 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+              <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center text-white">
+                <Mail size={24} />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-slate-400 uppercase">Email</p>
+                <p className="text-slate-800 font-semibold">support@bloodlife.app</p>
+              </div>
             </div>
-            <div>
-              <div className="font-bold">{c.title}</div>
-              <div className="text-sm text-gray-500">{c.val}</div>
+
+            <div className="flex items-center gap-5 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+              <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center text-white">
+                <Phone size={24} />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-slate-400 uppercase">Phone</p>
+                <p className="text-slate-800 font-semibold">+1 (555) 0123-456</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-5 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+              <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center text-white">
+                <MapPin size={24} />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-slate-400 uppercase">Address</p>
+                <p className="text-slate-800 font-semibold">123 Healthcare Ave, Wellness City</p>
+              </div>
             </div>
           </div>
-        ))}
 
-      </div>
+          {/* RIGHT COLUMN: Contact Form */}
+          <div className="md:col-span-2 bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-slate-100">
+            <form className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">Name</label>
+                  <input 
+                    type="text" 
+                    placeholder="Your Name"
+                    className="w-full px-5 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-2 focus:ring-[#18c5b5]/20 outline-none transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">Email</label>
+                  <input 
+                    type="email" 
+                    placeholder="Email Address"
+                    className="w-full px-5 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-2 focus:ring-[#18c5b5]/20 outline-none transition"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Subject</label>
+                <input 
+                  type="text" 
+                  placeholder="How can we help?"
+                  className="w-full px-5 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-2 focus:ring-[#18c5b5]/20 outline-none transition"
+                />
+              </div>
 
-      {/* RIGHT FORM */}
-      <div className="md:col-span-2 bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
+              <div>
+                <label className="block text-sm font-bold text-slate-700 mb-2">Message</label>
+                <textarea 
+                  rows="4" 
+                  placeholder="Your message here..."
+                  className="w-full px-5 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-2 focus:ring-[#18c5b5]/20 outline-none transition resize-none"
+                ></textarea>
+              </div>
 
-        {status.msg && (
-          <div
-            className={`mb-6 p-4 rounded-xl text-sm font-medium border ${
-              status.type === "success"
-                ? "bg-green-50 text-green-700 border-green-100"
-                : "bg-red-50 text-red-700 border-red-100"
-            }`}
-          >
-            {status.msg}
+              <button className="w-full md:w-auto px-10 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-2xl shadow-lg shadow-red-200 transition-all active:scale-95 flex items-center justify-center gap-2">
+                <Send size={18} />
+                Send Message
+              </button>
+            </form>
           </div>
-        )}
 
-        <form onSubmit={onSubmit} className="grid md:grid-cols-2 gap-6">
+        </div>
+      </main>
+    </div>
+  );
+};
 
-          <input
-            className="px-4 py-2.5 border rounded-xl"
-            placeholder="Name"
-            value={form.full_name}
-            onChange={(e) =>
-              setForm({ ...form, full_name: e.target.value })
-            }
-          />
-
-          <input
-            className="px-4 py-2.5 border rounded-xl"
-            placeholder="Email"
-            value={form.email}
-            onChange={(e) =>
-              setForm({ ...form, email: e.target.value })
-            }
-          />
-
-          <input
-            className="md:col-span-2 px-4 py-2.5 border rounded-xl"
-            placeholder="Subject"
-            value={form.subject}
-            onChange={(e) =>
-              setForm({ ...form, subject: e.target.value })
-            }
-          />
-
-          <textarea
-            className="md:col-span-2 px-4 py-2.5 border rounded-xl"
-            rows={5}
-            placeholder="Message"
-            value={form.message}
-            onChange={(e) =>
-              setForm({ ...form, message: e.target.value })
-            }
-          />
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="md:col-span-2 bg-red-600 text-white py-3 rounded-xl font-bold hover:bg-red-700 transition"
-          >
-            {loading ? "Sending..." : "Send Message"}
-          </button>
-
-        </form>
-      </div>
-    </section>
-  </div>
-);
-}
+export default Contact;
