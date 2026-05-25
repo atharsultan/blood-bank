@@ -1,118 +1,63 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import PageHero from "../components/PageHero";
+import { Layers, Activity } from "lucide-react";
 
-const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
-
-export default function Stock() {
-  const [stock, setStock] = useState({});
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    document.title = "Blood Stock — BloodLife";
-
-    const fetchStock = async () => {
-      setLoading(true);
-      try {
-        // Mocking the Supabase fetch with a small delay
-        await new Promise((resolve) => setTimeout(resolve, 800));
-
-        // Simulated data structure
-        const mockData = {
-          "A+": 12, "A-": 3, "B+": 8, "B-": 0,
-          "AB+": 5, "AB-": 1, "O+": 20, "O-": 4,
-        };
-
-        setStock(mockData);
-      } catch (err) {
-        console.error("Error loading stock:", err);
-        setStock({});
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStock();
-  }, []);
+const Stock = () => {
+  const stockInventory = [
+    { group: "A+", units: 12, status: "Stable" },
+    { group: "A-", units: 4, status: "Low Stock" },
+    { group: "B+", units: 15, status: "Stable" },
+    { group: "B-", units: 2, status: "Critical" },
+    { group: "AB+", units: 5, status: "Stable" },
+    { group: "AB-", units: 1, status: "Critical" },
+    { group: "O+", units: 22, status: "High Stock" },
+    { group: "O-", units: 8, status: "Low Stock" },
+  ];
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
-      {/* Header Section */}
-      <section className="bg-gray-50 py-16 border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-6">
-          <h1 className="text-4xl md:text-5xl font-black mb-4 tracking-tight">
-            Live Blood Stock
+    <div className="font-sans bg-slate-50 min-h-screen">
+      <PageHero
+        title={
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase text-white tracking-tight">
+            Inventory <span className="text-red-500">Stock</span>
           </h1>
-          <p className="text-xl text-gray-500 font-medium max-w-2xl">
-            Real-time blood unit availability across all groups in our central repository.
-          </p>
+        }
+      >
+        <p className="mt-4 text-xs sm:text-sm md:text-base text-white/80 leading-relaxed max-w-xl font-medium">
+          Live monitoring overview of standard processed blood components currently held in storage vaults.
+        </p>
+      </PageHero>
+
+      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-16 py-12">
+        {/* RESPONSIVE LAYOUT COLUMNS */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {stockInventory.map((item, index) => (
+            <div key={index} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition-all group">
+              <div className="flex justify-between items-start">
+                <span className="text-2xl font-black text-slate-800 bg-slate-50 w-12 h-12 rounded-xl flex items-center justify-center border border-slate-100 group-hover:bg-red-50 group-hover:text-red-600 group-hover:border-red-100 transition-colors">
+                  {item.group}
+                </span>
+                <span className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-md ${
+                  item.status === "Stable" || item.status === "High Stock" 
+                    ? "bg-emerald-50 text-emerald-600" 
+                    : "bg-amber-50 text-amber-600 animate-pulse"
+                }`}>
+                  {item.status}
+                </span>
+              </div>
+
+              <div className="mt-8">
+                <p className="text-3xl font-black text-slate-900 tracking-tight">{item.units}</p>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mt-0.5 flex items-center gap-1">
+                  <Layers size={12} /> Bags Available
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
-      </section>
-
-      {/* Stock Grid */}
-      <section className="max-w-6xl mx-auto px-6 py-12">
-        {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {BLOOD_GROUPS.map((bg) => {
-              const units = stock[bg] ?? 0;
-              
-              // Logic for status badges
-              const status = units === 0 ? "out" : units < 5 ? "low" : "ok";
-
-              return (
-                <div 
-                  key={bg} 
-                  className="bg-white border border-gray-200 p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all group"
-                >
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="text-red-600">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/>
-                      </svg>
-                    </div>
-
-                    <span
-                      className={`text-[10px] uppercase tracking-widest font-black px-3 py-1 rounded-full border ${
-                        status === "ok"
-                          ? "bg-green-50 text-green-700 border-green-100"
-                          : status === "low"
-                          ? "bg-amber-50 text-amber-700 border-amber-100"
-                          : "bg-red-50 text-red-700 border-red-100"
-                      }`}
-                    >
-                      {status === "ok" ? "Available" : status === "low" ? "Low Stock" : "Out of Stock"}
-                    </span>
-                  </div>
-
-                  <div className="text-5xl font-black text-gray-900 group-hover:scale-110 transition-transform origin-left">
-                    {bg}
-                  </div>
-
-                  <div className="mt-4 flex items-baseline gap-1">
-                    <span className="text-3xl font-black text-red-600">{units}</span>
-                    <span className="text-sm font-bold text-gray-400 uppercase tracking-wide">Units</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-      </section>
-
-      {/* Info Footer */}
-      <section className="max-w-6xl mx-auto px-6 pb-20">
-        <div className="bg-red-600 rounded-3xl p-8 md:p-12 text-white flex flex-col md:flex-row justify-between items-center gap-8">
-          <div>
-            <h3 className="text-2xl font-black mb-2">Can't find your blood group?</h3>
-            <p className="text-red-100 font-medium">Register as a recipient or contact our emergency helpline immediately.</p>
-          </div>
-          <button className="bg-white text-red-600 font-black px-8 py-4 rounded-2xl shadow-lg hover:bg-gray-100 transition-colors whitespace-nowrap">
-            Contact Helpline
-          </button>
-        </div>
-      </section>
+      </main>
     </div>
   );
-}
+};
+
+export default Stock;

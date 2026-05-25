@@ -1,0 +1,53 @@
+[33mcommit ad09d3925686c6f1ee139d6e060069e3607db3bd[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfresh-start[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: atharsultan <atharsultan56@gmail.com>
+Date:   Sun May 17 22:06:24 2026 +0500
+
+    just add --- to contacus
+
+[33mcommit ac70160ab0fb6ab3b6319bb6d2c382eaab0d17b5[m[33m ([m[1;31morigin/fresh-start[m[33m)[m
+Author: ghulam <ghulamaham786@gmail.com>
+Date:   Sun May 17 18:21:34 2026 +0500
+
+    some changes
+
+[33mcommit 9e79b51d3bf2f0afac0e5cd2cf401d18138edd1d[m
+Merge: a9452f9 f7cc956
+Author: Athar Ali <153279274+atharsultan@users.noreply.github.com>
+Date:   Sat May 16 01:01:05 2026 +0500
+
+    Merge pull request #2 from atharsultan/fresh-start
+    
+    updated
+
+[33mcommit f7cc95672e852f6b313c036fd4af92c6d4c465c4[m
+Author: atharsultan <atharsultan56@gmail.com>
+Date:   Sat May 16 00:58:40 2026 +0500
+
+    updated
+
+[33mcommit a9452f94bd2a3bf934b74865e8179d765335366e[m
+Merge: ed3be52 56b1d93
+Author: Athar Ali <153279274+atharsultan@users.noreply.github.com>
+Date:   Fri May 15 23:11:48 2026 +0500
+
+    Merge pull request #1 from atharsultan/fresh-start
+    
+    Fresh start
+
+[33mcommit 56b1d93d30439e49b235ce983e27d7879d90a6c9[m
+Author: atharsultan <atharsultan56@gmail.com>
+Date:   Fri May 15 23:10:38 2026 +0500
+
+    Index page changes
+
+[33mcommit 38f9005a11393074a5eb943cb1b53f727cbb6e59[m
+Author: atharsultan <atharsultan56@gmail.com>
+Date:   Sun May 10 04:17:36 2026 +0500
+
+    Design Updated
+
+[33mcommit ed3be52d76e3892f8352c70aa9853b518353d86c[m
+Author: atharsultan <atharsultan56@gmail.com>
+Date:   Sat May 9 00:46:26 2026 +0500
+
+    Fresh start: Blood Bank with new pages

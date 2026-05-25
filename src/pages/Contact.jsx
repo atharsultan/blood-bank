@@ -1,174 +1,124 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import PageHero from "../components/PageHero";
+import { Mail, Phone, MapPin, Send } from "lucide-react"; // Optional icons
 
-export default function Contact() {
-  const [form, setForm] = useState({
-    full_name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState({ type: "", msg: "" });
-
-  useEffect(() => {
-    document.title = "Contact — BloodLife";
-  }, []);
-
-  // Simple native validation logic to replace Zod
-  const validateForm = () => {
-    if (form.full_name.trim().length < 2) return "Name is too short";
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) return "Invalid email address";
-    if (form.message.trim().length < 5) return "Message must be at least 5 characters";
-    return null;
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    setStatus({ type: "", msg: "" });
-
-    const error = validateForm();
-    if (error) {
-      setStatus({ type: "error", msg: error });
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      // Mocking the Supabase call
-      console.log("Submitting to database:", form);
-      
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      setStatus({ type: "success", msg: "Message sent! We'll be in touch." });
-      setForm({ full_name: "", email: "", subject: "", message: "" });
-    } catch (err) {
-      setStatus({ type: "error", msg: "Something went wrong. Try again." });
-    } finally {
-      setLoading(false);
-    }
-  };
-
+const Contact = () => {
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
-      {/* Header Section */}
-      <section className="bg-gray-50 py-16 border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-6">
-          <h1 className="text-4xl font-extrabold mb-2 tracking-tight text-gray-900">
-            Get in Touch
+    <div className="font-sans bg-slate-50 min-h-screen">
+      
+      {/* ================= HERO BACKDROP ================= */}
+      <PageHero
+        title={
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black leading-tight uppercase tracking-tight text-white">
+            Get in <span className="text-red-600">Touch</span>
           </h1>
-          <p className="text-lg text-gray-600">
-            Questions, feedback, or partnerships — we'd love to hear from you.
-          </p>
-        </div>
-      </section>
+        }
+      >
+        <p className="mt-4 md:mt-6 text-xs sm:text-sm md:text-base text-white/80 leading-relaxed max-w-xl font-medium">
+          Questions, feedback, or partnerships — we'd love to hear from you. 
+          Our team typically responds within 24 hours.
+        </p>
+      </PageHero>
 
-      {/* Main Content */}
-      <section className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-12">
+      {/* ================= MAIN CONTENT ================= */}
+      {/* Modified to a responsive fluid shell with smart outer spacing */}
+      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-16 py-10 md:py-16">
         
-        {/* Contact Info Sidebar */}
-        <div className="space-y-4">
-          {[
-            { 
-              title: "Email", 
-              val: "support@bloodlife.app", 
-              icon: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            },
-            { 
-              title: "Phone", 
-              val: "+1 (555) 0123-456", 
-              icon: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            },
-            { 
-              title: "Address", 
-              val: "123 Healthcare Ave, Wellness City", 
-              icon: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-            },
-          ].map((c) => (
-            <div key={c.title} className="p-5 bg-white border border-gray-200 rounded-2xl shadow-sm flex gap-4 items-start">
-              <div className="h-10 w-10 rounded-xl bg-red-600 flex items-center justify-center shrink-0 text-white">
-                {c.icon}
+        {/* Responsive Grid Shell: Stacks info tiles on top of the form for mobile screen spaces */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
+          
+          {/* LEFT COLUMN: Contact Info Tiles */}
+          <div className="space-y-4 md:space-y-6">
+            
+            <div className="flex items-center gap-4 p-5 md:p-6 bg-white rounded-2xl shadow-sm border border-slate-100/80">
+              <div className="w-11 h-11 md:w-12 md:h-12 bg-red-600 rounded-xl flex items-center justify-center text-white shrink-0 shadow-md shadow-red-100">
+                <Mail size={20} />
               </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-wider">Email</p>
+                <p className="text-slate-800 font-bold text-sm md:text-base truncate">support@bloodlife.app</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 p-5 md:p-6 bg-white rounded-2xl shadow-sm border border-slate-100/80">
+              <div className="w-11 h-11 md:w-12 md:h-12 bg-red-600 rounded-xl flex items-center justify-center text-white shrink-0 shadow-md shadow-red-100">
+                <Phone size={20} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-wider">Phone</p>
+                <p className="text-slate-800 font-bold text-sm md:text-base truncate">+92-332-3758703</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 p-5 md:p-6 bg-white rounded-2xl shadow-sm border border-slate-100/80">
+              <div className="w-11 h-11 md:w-12 md:h-12 bg-red-600 rounded-xl flex items-center justify-center text-white shrink-0 shadow-md shadow-red-100">
+                <MapPin size={20} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-wider">Address</p>
+                <p className="text-slate-800 font-bold text-sm md:text-base leading-tight">Commercial Market Rawalpindi</p>
+              </div>
+            </div>
+
+          </div>
+
+          {/* RIGHT COLUMN: Contact Form Container */}
+          <div className="lg:col-span-2 bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-sm border border-slate-100">
+            <form className="space-y-5 md:space-y-6" onSubmit={(e) => e.preventDefault()}>
+              
+              {/* Dynamic inline scaling inputs */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+                <div>
+                  <label className="block text-xs md:text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Name</label>
+                  <input 
+                    type="text" 
+                    placeholder="Athar Sultan"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-4 focus:ring-[#18c5b5]/10 outline-none transition text-sm font-medium"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs md:text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Email</label>
+                  <input 
+                    type="email" 
+                    placeholder="Email Address"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-4 focus:ring-[#18c5b5]/10 outline-none transition text-sm font-medium"
+                  />
+                </div>
+              </div>
+              
               <div>
-                <div className="font-bold text-gray-900">{c.title}</div>
-                <div className="text-sm text-gray-500">{c.val}</div>
+                <label className="block text-xs md:text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Subject</label>
+                <input 
+                  type="text" 
+                  placeholder="How can we help?"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-4 focus:ring-[#18c5b5]/10 outline-none transition text-sm font-medium"
+                />
               </div>
-            </div>
-          ))}
+
+              <div>
+                <label className="block text-xs md:text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Message</label>
+                <textarea 
+                  rows="4" 
+                  placeholder="Your message here..."
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-4 focus:ring-[#18c5b5]/10 outline-none transition text-sm font-medium resize-none"
+                ></textarea>
+              </div>
+
+              {/* Action item buttons stretch fluidly across full screen context on mobile frames */}
+              <div className="pt-2">
+                <button className="w-full sm:w-auto px-10 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-red-200 hover:shadow-xl transition-all active:scale-95 flex items-center justify-center gap-2">
+                  <Send size={16} />
+                  Send Message
+                </button>
+              </div>
+
+            </form>
+          </div>
+
         </div>
-
-        {/* Contact Form */}
-        <div className="md:col-span-2 bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
-          {status.msg && (
-            <div className={`mb-6 p-4 rounded-xl text-sm font-medium border ${
-              status.type === "success" ? "bg-green-50 text-green-700 border-green-100" : "bg-red-50 text-red-700 border-red-100"
-            }`}>
-              {status.msg}
-            </div>
-          )}
-
-          <form onSubmit={onSubmit} className="grid md:grid-cols-2 gap-6">
-            <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-bold text-gray-700">Name</label>
-              <input
-                type="text"
-                value={form.full_name}
-                onChange={(e) => setForm({ ...form, full_name: e.target.value })}
-                className="px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all"
-                placeholder="Your Name"
-                required
-              />
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-bold text-gray-700">Email</label>
-              <input
-                type="email"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all"
-                placeholder="you@example.com"
-                required
-              />
-            </div>
-
-            <div className="md:col-span-2 flex flex-col gap-1.5">
-              <label className="text-sm font-bold text-gray-700">Subject</label>
-              <input
-                type="text"
-                value={form.subject}
-                onChange={(e) => setForm({ ...form, subject: e.target.value })}
-                className="px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all"
-                placeholder="What is this regarding?"
-              />
-            </div>
-
-            <div className="md:col-span-2 flex flex-col gap-1.5">
-              <label className="text-sm font-bold text-gray-700">Message</label>
-              <textarea
-                rows={5}
-                value={form.message}
-                onChange={(e) => setForm({ ...form, message: e.target.value })}
-                className="px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all resize-none"
-                placeholder="How can we help?"
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className={`md:col-span-2 py-3 px-6 rounded-xl font-bold text-white transition-all shadow-md active:scale-[0.98] ${
-                loading ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
-              }`}
-            >
-              {loading ? "Sending Message..." : "Send Message"}
-            </button>
-          </form>
-        </div>
-      </section>
+      </main>
     </div>
   );
-}
+};
+
+export default Contact;

@@ -1,153 +1,140 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import PageHero from "../components/PageHero";
+import { Search as SearchIcon, MapPin, Droplet } from "lucide-react";
 
-const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+const Search = () => {
+  const [bloodGroup, setBloodGroup] = useState("");
+  const [location, setLocation] = useState("");
+  
+  // 1. Initial list of donors
+  const allDonors = [
+    { id: 1, name: "Muhammad Ali", group: "A+", location: "Rawalpindi", status: "Available", contact: "+92 300 1234567" },
+    { id: 2, name: "Zainab Bibi", group: "O-", location: "Islamabad", status: "Available", contact: "+92 321 7654321" },
+    { id: 3, name: "Hamza Sultan", group: "B+", location: "Lahore", status: "On Break", contact: "+92 333 9876543" },
+    { id: 4, name: "Ahmed Khan", group: "A+", location: "Lahore", status: "Available", contact: "+92 312 1112233" },
+  ];
 
-export default function Search() {
-  const [bg, setBg] = useState("any");
-  const [city, setCity] = useState("");
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // 2. State for the filtered list
+  const [filteredDonors, setFilteredDonors] = useState(allDonors);
 
-  useEffect(() => {
-    document.title = "Search Donors — BloodLife";
-    runSearch();
-  }, []);
-
-  const runSearch = async () => {
-    setLoading(true);
-
-    try {
-      // Mocking the Supabase RPC call
-      console.log("Searching for:", { bg, city });
-      
-      // Simulated delay
-      await new Promise(resolve => setTimeout(resolve, 600));
-
-      // Mock Data
-      const mockDonors = [
-        { full_name: "Athar Sultan", blood_group: "O+", city: "Skardu", available_to_donate: true },
-        { full_name: "Aziz Ullah", blood_group: "A-", city: "Chilas", available_to_donate: true },
-        { full_name: "Ali Jan", blood_group: "B+", city: "Palandri Kashmir", available_to_donate: false },
-      ];
-
-      // Simple mock filter logic
-      const filtered = mockDonors.filter(d => {
-        const matchesBg = bg === "any" || d.blood_group === bg;
-        const matchesCity = !city || d.city.toLowerCase().includes(city.toLowerCase());
-        return matchesBg && matchesCity;
-      });
-
-      setResults(filtered);
-    } catch (err) {
-      console.error("Search error:", err);
-      setResults([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    runSearch();
+  // 3. Search Handler
+  const handleSearch = () => {
+    const filtered = allDonors.filter((donor) => {
+      const matchGroup = bloodGroup ? donor.group === bloodGroup : true;
+      const matchLocation = location ? donor.location.toLowerCase().includes(location.toLowerCase()) : true;
+      return matchGroup && matchLocation;
+    });
+    setFilteredDonors(filtered);
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
-      {/* Search Header */}
-      <section className="bg-gray-50 py-12 border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-6">
-          <h1 className="text-4xl font-black mb-2 tracking-tight">
-            Find Blood Donors
+    <div className="font-sans bg-slate-50 min-h-screen">
+      <PageHero
+        title={
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase text-white tracking-tight">
+            Find A <span className="text-red-500">Donor</span>
           </h1>
-          <p className="text-gray-500 mb-8 font-medium">
-            Search verified donors by blood group and city.
-          </p>
+        }
+      >
+        <p className="mt-4 text-xs sm:text-sm md:text-base text-white/80 leading-relaxed max-w-xl font-medium">
+          Search our real-time database of verified voluntary lifesavers near your location.
+        </p>
+      </PageHero>
 
-          <div className="bg-white p-6 rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100">
-            <form onSubmit={onSubmit} className="grid md:grid-cols-4 gap-6">
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Blood Group</label>
-                <select 
-                  value={bg} 
-                  onChange={(e) => setBg(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all appearance-none cursor-pointer font-semibold"
-                >
-                  <option value="any">Any Group</option>
-                  {BLOOD_GROUPS.map((b) => (
-                    <option key={b} value={b}>{b}</option>
-                  ))}
-                </select>
-              </div>
+      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-16 py-10">
+        {/* FILTER CONTROL BOX */}
+        <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-100 mb-8 -mt-16 relative z-30">
+          <div className="flex flex-col lg:flex-row gap-4 items-end">
+            
+            <div className="w-full lg:w-1/3">
+              <label className="block text-xs font-black text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <Droplet size={14} className="text-red-500" /> Blood Group
+              </label>
+              <select 
+                value={bloodGroup}
+                onChange={(e) => setBloodGroup(e.target.value)}
+                className="w-full p-3 bg-slate-50 border border-slate-200 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 rounded-xl outline-none transition font-semibold text-sm text-slate-700"
+              >
+                <option value="">All Groups</option>
+                <option value="A+">A+</option>
+                <option value="O-">O-</option>
+                <option value="B+">B+</option>
+              </select>
+            </div>
 
-              <div className="md:col-span-2 flex flex-col gap-2">
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">City</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Islamabad"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-red-500 outline-none transition-all font-semibold"
-                />
-              </div>
+            <div className="w-full lg:w-2/3">
+              <label className="block text-xs font-black text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <MapPin size={14} className="text-red-500" /> Location Area
+              </label>
+              <input 
+                type="text" 
+                placeholder="Enter city (e.g. Lahore)..."
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="w-full p-3 bg-slate-50 border border-slate-200 focus:border-red-500 focus:ring-4 focus:ring-red-500/10 rounded-xl outline-none transition font-medium text-sm"
+              />
+            </div>
 
-              <div className="flex items-end">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 rounded-xl transition-all shadow-lg shadow-red-100 flex items-center justify-center gap-2 active:scale-95 disabled:bg-gray-300"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                  {loading ? "Searching..." : "Search"}
-                </button>
-              </div>
-            </form>
+            <button 
+              onClick={handleSearch}
+              className="w-full lg:w-auto px-8 py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold text-sm uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2 shrink-0"
+            >
+              <SearchIcon size={16} /> Search
+            </button>
           </div>
         </div>
-      </section>
 
-      {/* Results Section */}
-      <section className="max-w-6xl mx-auto px-6 py-12">
-        <div className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6">
-          {results.length} donor(s) found
+        {/* RESULTS INTERACTIVE BLOCK */}
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+          <div className="w-full overflow-x-auto">
+            <table className="w-full min-w-[600px] divide-y divide-slate-100 text-left text-sm">
+              <thead className="bg-slate-50 text-xs font-black uppercase tracking-wider text-slate-400">
+                <tr>
+                  <th className="p-5">Donor Name</th>
+                  <th className="p-5">Blood Group</th>
+                  <th className="p-5">City Location</th>
+                  <th className="p-5">Live Status</th>
+                  <th className="p-5 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+                {filteredDonors.length > 0 ? (
+                  filteredDonors.map((donor) => (
+                    <tr key={donor.id} className="hover:bg-slate-50/50 transition-colors">
+                      <td className="p-5 font-bold text-slate-800">{donor.name}</td>
+                      <td className="p-5">
+                        <span className="px-2.5 py-1 bg-red-50 text-red-600 rounded-lg font-black text-xs border border-red-100">
+                          {donor.group}
+                        </span>
+                      </td>
+                      <td className="p-5 text-slate-500">{donor.location}</td>
+                      <td className="p-5">
+                        <span className={`inline-flex items-center gap-1 text-xs font-bold ${donor.status === "Available" ? "text-emerald-500" : "text-amber-500"}`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${donor.status === "Available" ? "bg-emerald-500 animate-pulse" : "bg-amber-500"}`} />
+                          {donor.status}
+                        </span>
+                      </td>
+                      <td className="p-5 text-right">
+                        <a href={`tel:${donor.contact}`} className="inline-block px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-all">
+                          Call Now
+                        </a>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="p-10 text-center text-slate-500 font-bold">
+                      No donors found matching your search criteria.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {results.map((d, i) => (
-            <div key={i} className="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-              <div className="flex items-start justify-between mb-4">
-                <div className="h-12 w-12 rounded-xl bg-red-50 flex items-center justify-center text-red-600">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg>
-                </div>
-
-                <span className="text-sm font-black px-3 py-1 rounded-lg bg-red-600 text-white shadow-sm">
-                  {d.blood_group}
-                </span>
-              </div>
-
-              <h3 className="font-black text-xl text-gray-900 group-hover:text-red-600 transition-colors">{d.full_name}</h3>
-
-              <div className="text-gray-500 flex items-center gap-1.5 mt-2 font-medium">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                {d.city || "Not specified"}
-              </div>
-
-              {d.available_to_donate && (
-                <div className="mt-6 flex items-center gap-2 py-2 px-3 bg-green-50 rounded-lg border border-green-100">
-                  <svg className="text-green-600" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                  <span className="text-xs font-bold text-green-700 uppercase tracking-wide">Available to donate</span>
-                </div>
-              )}
-            </div>
-          ))}
-
-          {!loading && results.length === 0 && (
-            <div className="md:col-span-2 lg:col-span-3 py-20 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 text-center">
-              <div className="text-gray-400 font-bold">No donors match your search</div>
-              <p className="text-sm text-gray-400 mt-1">Try widening your filters or checking back later.</p>
-            </div>
-          )}
-        </div>
-      </section>
+      </main>
     </div>
   );
-}
+};
+
+export default Search;
