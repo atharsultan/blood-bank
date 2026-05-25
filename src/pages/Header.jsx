@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const Header = () => {
   const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false); // Added state to track menu toggle
 
   // Unified navigation route configuration
   const navItems = [
@@ -16,7 +17,7 @@ const Header = () => {
   ];
 
   return (
-    <nav className="w-full bg-transparent">
+    <nav className="w-full bg-transparent relative z-50">
       {/* This wrapper forces max-width bounds and pushes the brand 
         logo and nav items to opposite edges using justify-between.
       */}
@@ -50,12 +51,38 @@ const Header = () => {
           })}
         </div>
 
-        {/* MOBILE INTERFACE HUMBURGER INDICATOR (Optional styling anchor) */}
-        <div className="lg:hidden text-white cursor-pointer font-bold text-xs uppercase tracking-widest opacity-80">
-          Menu ☰
-        </div>
+        {/* MOBILE INTERFACE HAMBURGER INDICATOR */}
+        {/* Swapped to a button with an onClick handler toggling state */}
+        <button 
+          onClick={() => setIsOpen(!isOpen)}
+          className="lg:hidden text-white cursor-pointer font-bold text-xs uppercase tracking-widest opacity-80 focus:outline-none"
+        >
+          {isOpen ? "Close ✕" : "Menu ☰"}
+        </button>
 
       </div>
+
+      {/* MOBILE DROPDOWN LINKS PANEL */}
+      {/* Renders beneath the container line without breaking layouts if state flag is active */}
+      {isOpen && (
+        <div className="lg:hidden w-full bg-slate-900/95 border-b border-white/10 px-6 py-4 flex flex-col space-y-4">
+          {navItems.map((item) => {
+            const isActive = location.pathname === item.path;
+            return (
+              <Link
+                key={item.name}
+                to={item.path}
+                onClick={() => setIsOpen(false)} // Closes mobile menu on link click
+                className={`text-xs uppercase tracking-widest font-bold transition-all duration-200 block ${
+                  isActive ? "text-white" : "text-white/75"
+                }`}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </nav>
   );
 };

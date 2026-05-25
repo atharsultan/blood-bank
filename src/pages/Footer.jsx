@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom"; // Added useLocation here
+import { Link, useLocation } from "react-router-dom";
 
 const Footer = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const { pathname } = useLocation(); // Destructure the current page path
+  const { pathname } = useLocation();
 
-  // FIX: Reset scroll to top automatically when the route path changes
+  // Reset scroll to top automatically when the route path changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -48,9 +48,10 @@ const Footer = () => {
     <footer className="relative bg-slate-950 text-slate-400 font-sans border-t border-slate-900">
       
       {/* FLOATING BACK TO TOP BUTTON */}
+      {/* Adjusted positioning to prevent clipping browser bars on mobile devices */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-8 right-8 z-50 p-3.5 bg-[#18c5b5] text-white rounded-full shadow-2xl hover:bg-[#14a396] hover:scale-110 active:scale-95 transition-all duration-300 group flex items-center justify-center ${
+        className={`fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50 p-3 bg-[#18c5b5] text-white rounded-full shadow-2xl hover:bg-[#14a396] hover:scale-110 active:scale-95 transition-all duration-300 group flex items-center justify-center ${
           isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-4 scale-75 pointer-events-none"
         }`}
         aria-label="Back to top"
@@ -68,14 +69,15 @@ const Footer = () => {
       </button>
 
       {/* Main Content Links Grid */}
-      <div className="max-w-7xl mx-auto px-6 md:px-16 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+      {/* Shifted text alignment settings dynamically across responsive breakpoints */}
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-16 py-12 md:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 text-center sm:text-left">
         
         {/* Brand Section */}
         <div className="lg:col-span-4 space-y-4">
           <h2 className="text-white text-2xl font-black uppercase tracking-widest">
             BBDMS
           </h2>
-          <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
+          <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm mx-auto sm:mx-0">
             A specialized platform connecting voluntary blood donors securely with dynamic healthcare distribution frameworks to optimize logistics and save lives.
           </p>
         </div>
@@ -118,7 +120,8 @@ const Footer = () => {
       <div className="border-t border-slate-900" />
 
       {/* Copyright Bar */}
-      <div className="max-w-7xl mx-auto px-6 md:px-16 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold tracking-wider text-slate-500">
+      {/* Handled vertical flex stacking for thin phone containers */}
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-16 py-6 flex flex-col md:flex-row items-center justify-between gap-3 text-[10px] sm:text-xs font-semibold tracking-wider text-slate-500 text-center md:text-left">
         <p>© {new Date().getFullYear()} BBDMS. ALL RIGHTS RESERVED.</p>
         <p className="uppercase">
           Designed with precision for <span className="text-[#18c5b5]">Healthcare Systems</span>

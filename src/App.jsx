@@ -3,7 +3,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Global Layout Components
+// Removed import Header as it was causing the duplicate top bar
 import Footer from "./pages/Footer"; 
+import ScrollToTop from "./pages/ScrollToTop";
 
 // Public Pages
 import Index from "./pages/Index";
@@ -13,8 +15,8 @@ import Stock from "./pages/Stock";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import NotFound from "./pages/NotFound";
 import ChangePassword from "./pages/ChangePassword";
+import NotFound from "./pages/NotFound";
 
 // Donor Pages
 import DonorDashboard from "./pages/donar/DonorDashboard";
@@ -32,7 +34,11 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        <ScrollToTop />
+        
         <div className="flex flex-col min-h-screen">
+          {/* Header removed from here to eliminate the top red navigation bar */}
+          
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Index />} />

@@ -9,98 +9,109 @@ const Contact = () => {
       {/* ================= HERO BACKDROP ================= */}
       <PageHero
         title={
-          <h1 className="text-3xl md:text-5xl font-bold leading-tight uppercase">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl font-black leading-tight uppercase tracking-tight text-white">
             Get in <span className="text-red-600">Touch</span>
           </h1>
         }
       >
-        <p className="mt-6 text-sm md:text-base text-white/80 leading-relaxed max-w-xl">
+        <p className="mt-4 md:mt-6 text-xs sm:text-sm md:text-base text-white/80 leading-relaxed max-w-xl font-medium">
           Questions, feedback, or partnerships — we'd love to hear from you. 
           Our team typically responds within 24 hours.
         </p>
       </PageHero>
 
       {/* ================= MAIN CONTENT ================= */}
-      <main className="max-w-7xl mx-auto px-6 md:px-16 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+      {/* Modified to a responsive fluid shell with smart outer spacing */}
+      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-16 py-10 md:py-16">
+        
+        {/* Responsive Grid Shell: Stacks info tiles on top of the form for mobile screen spaces */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
           
           {/* LEFT COLUMN: Contact Info Tiles */}
-          <div className="space-y-6">
-            <div className="flex items-center gap-5 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-              <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center text-white">
-                <Mail size={24} />
+          <div className="space-y-4 md:space-y-6">
+            
+            <div className="flex items-center gap-4 p-5 md:p-6 bg-white rounded-2xl shadow-sm border border-slate-100/80">
+              <div className="w-11 h-11 md:w-12 md:h-12 bg-red-600 rounded-xl flex items-center justify-center text-white shrink-0 shadow-md shadow-red-100">
+                <Mail size={20} />
               </div>
-              <div>
-                <p className="text-xs font-bold text-slate-400 uppercase">Email</p>
-                <p className="text-slate-800 font-semibold">support@bloodlife.app</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-5 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-              <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center text-white">
-                <Phone size={24} />
-              </div>
-              <div>
-                <p className="text-xs font-bold text-slate-400 uppercase">Phone</p>
-                <p className="text-slate-800 font-semibold">+1 (555) 0123-456</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-wider">Email</p>
+                <p className="text-slate-800 font-bold text-sm md:text-base truncate">support@bloodlife.app</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-5 p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
-              <div className="w-12 h-12 bg-red-600 rounded-xl flex items-center justify-center text-white">
-                <MapPin size={24} />
+            <div className="flex items-center gap-4 p-5 md:p-6 bg-white rounded-2xl shadow-sm border border-slate-100/80">
+              <div className="w-11 h-11 md:w-12 md:h-12 bg-red-600 rounded-xl flex items-center justify-center text-white shrink-0 shadow-md shadow-red-100">
+                <Phone size={20} />
               </div>
-              <div>
-                <p className="text-xs font-bold text-slate-400 uppercase">Address</p>
-                <p className="text-slate-800 font-semibold">123 Healthcare Ave, Wellness City</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-wider">Phone</p>
+                <p className="text-slate-800 font-bold text-sm md:text-base truncate">+92-332-3758703</p>
               </div>
             </div>
+
+            <div className="flex items-center gap-4 p-5 md:p-6 bg-white rounded-2xl shadow-sm border border-slate-100/80">
+              <div className="w-11 h-11 md:w-12 md:h-12 bg-red-600 rounded-xl flex items-center justify-center text-white shrink-0 shadow-md shadow-red-100">
+                <MapPin size={20} />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-wider">Address</p>
+                <p className="text-slate-800 font-bold text-sm md:text-base leading-tight">Commercial Market Rawalpindi</p>
+              </div>
+            </div>
+
           </div>
 
-          {/* RIGHT COLUMN: Contact Form */}
-          <div className="md:col-span-2 bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-slate-100">
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* RIGHT COLUMN: Contact Form Container */}
+          <div className="lg:col-span-2 bg-white p-6 sm:p-8 md:p-10 rounded-3xl shadow-sm border border-slate-100">
+            <form className="space-y-5 md:space-y-6" onSubmit={(e) => e.preventDefault()}>
+              
+              {/* Dynamic inline scaling inputs */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">Name</label>
+                  <label className="block text-xs md:text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Name</label>
                   <input 
                     type="text" 
-                    placeholder="Your Name"
-                    className="w-full px-5 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-2 focus:ring-[#18c5b5]/20 outline-none transition"
+                    placeholder="Athar Sultan"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-4 focus:ring-[#18c5b5]/10 outline-none transition text-sm font-medium"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">Email</label>
+                  <label className="block text-xs md:text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Email</label>
                   <input 
                     type="email" 
                     placeholder="Email Address"
-                    className="w-full px-5 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-2 focus:ring-[#18c5b5]/20 outline-none transition"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-4 focus:ring-[#18c5b5]/10 outline-none transition text-sm font-medium"
                   />
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Subject</label>
+                <label className="block text-xs md:text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Subject</label>
                 <input 
                   type="text" 
                   placeholder="How can we help?"
-                  className="w-full px-5 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-2 focus:ring-[#18c5b5]/20 outline-none transition"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-4 focus:ring-[#18c5b5]/10 outline-none transition text-sm font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Message</label>
+                <label className="block text-xs md:text-sm font-black text-slate-700 uppercase tracking-wider mb-2">Message</label>
                 <textarea 
                   rows="4" 
                   placeholder="Your message here..."
-                  className="w-full px-5 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-2 focus:ring-[#18c5b5]/20 outline-none transition resize-none"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#18c5b5] focus:ring-4 focus:ring-[#18c5b5]/10 outline-none transition text-sm font-medium resize-none"
                 ></textarea>
               </div>
 
-              <button className="w-full md:w-auto px-10 py-4 bg-red-600 hover:bg-red-700 text-white font-bold rounded-2xl shadow-lg shadow-red-200 transition-all active:scale-95 flex items-center justify-center gap-2">
-                <Send size={18} />
-                Send Message
-              </button>
+              {/* Action item buttons stretch fluidly across full screen context on mobile frames */}
+              <div className="pt-2">
+                <button className="w-full sm:w-auto px-10 py-4 bg-red-600 hover:bg-red-700 text-white font-bold text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-red-200 hover:shadow-xl transition-all active:scale-95 flex items-center justify-center gap-2">
+                  <Send size={16} />
+                  Send Message
+                </button>
+              </div>
+
             </form>
           </div>
 
